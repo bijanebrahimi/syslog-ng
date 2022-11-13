@@ -483,6 +483,15 @@ The framework consists of these changes:
   * `dbld`: Removed support for `ubuntu-xenial`.
     ([#4057](https://github.com/syslog-ng/syslog-ng/pull/4057))
 
+  * Leaner production docker image: the balabit/syslog-ng docker image stops
+    pulling in logrotate and its dependencies into the image. logrotate
+    recursively pulled in cron and exim4 which are inoperable within the
+    image anyway and causes the image to be larger as well as increasing the
+    potential attack surface.
+
+  * Debian packaging: logrotate became Suggested instead of Recommended to
+    avoid installing logrotate by default.
+
 ## Other changes
 
   * `sumologic-http()` improvements
