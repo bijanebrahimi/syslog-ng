@@ -343,8 +343,10 @@ The framework consists of these changes:
       };
       ```
 
-
 ## Features
+
+  * `java()` destinations: fixed compatibility with newer Java versions,
+    syslog-ng is now able to compile up to Java 18.
 
   * `disk-buffer`: Added `prealloc()` option to preallocate new disk-buffer
     files.
