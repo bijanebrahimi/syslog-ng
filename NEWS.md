@@ -346,6 +346,16 @@ The framework consists of these changes:
 
 ## Features
 
+  * `disk-buffer`: Added `prealloc()` option to preallocate new disk-buffer
+    files.
+    ([#4056](https://github.com/syslog-ng/syslog-ng/pull/4056))
+
+  * `disk-buffer`: The default value of `truncate-size-ratio()` has been changed to 1,
+    which means truncation is disabled by default. This means that by default the
+    disk-buffer files will gradually become larger and will never reduce in size.
+    This improves performance.
+    ([#4056](https://github.com/syslog-ng/syslog-ng/pull/4056))
+
   * `log-level()`: added a new global option to control syslog-ng's own internal
     log level.  This augments the existing support for doing the same via the
     command line (via -d, -v and -t options) and via syslog-ng-ctl.  This change
