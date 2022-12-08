@@ -470,6 +470,10 @@ The framework consists of these changes:
     to be prepended to all name-value pairs that get extracted from messages
     using patterns or <value> tags.
 
+  * `csv-parser()`: add a new dialect, called escape-backslash-with-sequences
+    which uses "\" as an escape character but also supports C-style escape
+    sequences, like "\n" or "\r".
+
 ## Bugfixes
 
   * `tcp()`, `network()` or `syslog()` destinations: fixed a crash that could
@@ -513,6 +517,15 @@ The framework consists of these changes:
     these paths will contain the expanded path. Fixes Debian Bug report #962839:
     https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=962839
     ([#4143](https://github.com/syslog-ng/syslog-ng/pull/4143))
+
+  * `csv-parser()`: fixed the processing of the dialect() parameter, which was
+    not taken into consideration.
+
+  * `apache-accesslog-parser()`: Apache may use backslash-style escapes in the
+    `request` field, so support it by setting the csv-parser() dialect to
+    `escape-backslash-with-sequences`.  Also added validation that the
+    `rawrequest` field contains a valid HTTP request and only extract `verb`,
+    `request` and `httpversion` if this is the case.
 
 
 ## Packaging
