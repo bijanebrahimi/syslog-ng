@@ -587,6 +587,10 @@ The framework consists of these changes:
   * docker image: Nightly production docker images are now available as `balabit/syslog-ng:nightly`
     ([#4117](https://github.com/syslog-ng/syslog-ng/pull/4117))
 
+  * docker image: added jemalloc to the production image, which improves
+    performance, decreases memory framgentation and makes syslog-ng to
+    return memory to the system much more aggresively.
+
 
 ## Credits
 
