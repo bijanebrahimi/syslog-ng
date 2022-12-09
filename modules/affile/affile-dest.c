@@ -215,6 +215,16 @@ affile_dw_init(LogPipe *s)
       goto error;
     }
 
+  stats_lock();
+  StatsClusterKey sc_key;
+  stats_cluster_logpipe_key_set(&sc_key, SCS_DESTINATION | SCS_GROUP, self->owner->super.super.id, NULL);
+  LogQueue *queue = log_writer_get_queue((LogWriter *)self->writer);
+  stats_register_counter(0, &sc_key, SC_TYPE_DROPPED, &queue->dropped_messages);
+  stats_register_counter(0, &sc_key, SC_TYPE_QUEUED, &queue->queued_messages);
+  stats_counter_set(queue->dropped_messages, 0);
+  log_queue_unref(queue);
+  stats_unlock();
+
   return TRUE;
 
 error:
@@ -231,6 +241,15 @@ affile_dw_deinit(LogPipe *s)
   main_loop_assert_main_thread();
   if (self->writer)
     {
+      stats_lock();
+      StatsClusterKey sc_key;
+      stats_cluster_logpipe_key_set(&sc_key, SCS_DESTINATION | SCS_GROUP, self->owner->super.super.id, NULL);
+      LogQueue *queue = log_writer_get_queue((LogWriter *)self->writer);
+      stats_unregister_counter(&sc_key, SC_TYPE_DROPPED, &queue->dropped_messages);
+      stats_unregister_counter(&sc_key, SC_TYPE_QUEUED, &queue->queued_messages);
+      log_queue_unref(queue);
+      stats_unlock();
+
       log_pipe_deinit((LogPipe *) self->writer);
     }
 
